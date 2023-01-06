@@ -99,7 +99,7 @@ class Win(Window):
         self.reduce_trails()
         self.apply_trail_effects()
 
-w
+
 
 if __name__ == '__main__':
     window = Win(800, 600, resizable=True)
