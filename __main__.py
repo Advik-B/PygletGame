@@ -86,18 +86,12 @@ class Win(Window):
         self.trails = self.trails[-self.trail_length:]  # keep only the last 100 points
 
 
-    def apply_trail_effects(self):
-        # Reduce the opacity of the oldest points
-        for i, trail in enumerate(self.trails):
-            self.trails[i] = (trail[0], trail[1], 255 - (i * 255 / self.trail_length))
-
     def update(self, dt):
         self.character_sprite.x += self.speed if self.character_movement["right"] else 0
         self.character_sprite.x -= self.speed if self.character_movement["left"] else 0
         self.character_sprite.y += self.speed if self.character_movement["up"] else 0
         self.character_sprite.y -= self.speed if self.character_movement["down"] else 0
         self.reduce_trails()
-        self.apply_trail_effects()
 
 
 
