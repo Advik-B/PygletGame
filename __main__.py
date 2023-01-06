@@ -14,7 +14,7 @@ class Win(Window):
         self.setup()
 
     def setup(self):
-        self.set_caption("Custom Renderer")
+        self.set_caption("PyGlet Graphics Project")
         self.character_sprite = Circle(100, 100, 5)
         # Yellow
         self.character_sprite.color = (255, 255, 0)
