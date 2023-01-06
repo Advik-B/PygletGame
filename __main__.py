@@ -4,9 +4,15 @@ from pyglet.window import Window
 from pyglet import app
 
 from pyglet.window import key
-from pyglet.shapes import Circle, Line
+from pyglet.text import Label
+from pyglet.shapes import Circle, Line, Rectangle
 from threading import Thread
 from time import sleep
+
+
+
+
+
 class Win(Window):
 
     def __init__(self, *args, **kwargs):
@@ -40,13 +46,11 @@ class Win(Window):
             Line(0, y, self.width, y, self.grid_width, self.grid_color)
             for y in range(0, self.height, self.grid_spacing)
         )
-
-
+        self.notis = None
 
     def on_key_press(self, symbol, modifiers):
         if symbol == key.ESCAPE:
             self.close()
-
 
     def draw_trails(self):
         for trail in self.trails:
@@ -57,7 +61,7 @@ class Win(Window):
             line.draw()
 
     def on_draw(self):
-        self.update(1/60)
+        self.update()
         self.clear()
         self.character_sprite.draw()
         self.draw_trails()
@@ -89,8 +93,7 @@ class Win(Window):
         self.trails.append((self.character_sprite.x, self.character_sprite.y))
         self.trails = self.trails[-self.trail_length:]  # keep only the last 100 points
 
-
-    def update(self, dt):
+    def update(self, dt: float=1/60):
         if not self.mouse_mode:
             self.character_sprite.x += self.speed if self.character_movement["right"] else 0
             self.character_sprite.x -= self.speed if self.character_movement["left"] else 0
@@ -102,8 +105,6 @@ class Win(Window):
         if self.mouse_mode:
             self.character_sprite.x = x
             self.character_sprite.y = y
-
-
 
 
 if __name__ == '__main__':
