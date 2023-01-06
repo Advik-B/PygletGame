@@ -1,20 +1,20 @@
 import contextlib
-from abc import ABC
 
 from pyglet.window import Window
 from pyglet import app
+from pyglet.text import Label
 
 import pyglet
 
 
-class GameWindow(Window, ABC):
+class GameWindow(Window):
     def __init__(self, *args, **kwargs):
         super(GameWindow, self).__init__(*args, **kwargs)
-        self.message: pyglet.text.Label = None
+        self.message: Label = None
         self.setup()
 
     def setup(self):
-        self.message = pyglet.text.Label(
+        self.message = Label(
             "Go ahead, Hover over me!",
             font_name="JetBrains Mono",
             font_size=36,
@@ -37,6 +37,10 @@ class GameWindow(Window, ABC):
     def on_key_press(self, symbol, modifiers):
         if symbol == pyglet.window.key.ESCAPE:
             self.close()
+
+    def on_resize(self, width, height):
+        self.message.x = width // 2
+        self.message.y = height // 2
 
 
 if __name__ == '__main__':
