@@ -48,9 +48,6 @@ class Win(Window):
         )
         self.notis = None
 
-    def on_key_press(self, symbol, modifiers):
-        if symbol == key.ESCAPE:
-            self.close()
 
     def draw_trails(self):
         for trail in self.trails:
@@ -76,6 +73,9 @@ class Win(Window):
             self.character_movement["down"] = True
         elif symbol == key.D:
             self.character_movement["right"] = True
+
+        elif symbol == key.ESCAPE:
+            self.close()
 
     def on_key_release(self, symbol, modifiers):
         if symbol == key.W:
