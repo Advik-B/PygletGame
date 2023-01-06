@@ -2,7 +2,6 @@ from pyglet.window import Window
 from pyglet import app
 
 from pyglet.window import key
-from pyglet.gui import PushButton
 
 
 class Win(Window):
