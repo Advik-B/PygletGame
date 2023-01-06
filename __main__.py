@@ -25,7 +25,7 @@ class Win(Window):
         # Yellow
         self.character_sprite.color = (255, 255, 0)
         self.speed = 10
-        self.trail_length = 10
+        self.trail_length = 15
         self.mouse_mode = False
 
         self.character_sprite.x = self.width // 2
@@ -88,6 +88,9 @@ class Win(Window):
             self.character_movement["right"] = False
         elif symbol == key.M:
             self.mouse_mode = not self.mouse_mode
+            # Mouse should be locked to the window and invisible
+            self.set_exclusive_mouse(self.mouse_mode)
+            self.set_mouse_visible(not self.mouse_mode)
 
     def reduce_trails(self):
         self.trails.append((self.character_sprite.x, self.character_sprite.y))
@@ -103,8 +106,8 @@ class Win(Window):
 
     def on_mouse_motion(self, x, y, dx, dy):
         if self.mouse_mode:
-            self.character_sprite.x = x
-            self.character_sprite.y = y
+            self.character_sprite.x = dx + self.character_sprite.x
+            self.character_sprite.y = dy + self.character_sprite.y
 
 
 if __name__ == '__main__':
