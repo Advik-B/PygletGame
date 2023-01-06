@@ -19,7 +19,8 @@ class Win(Window):
         # Yellow
         self.character_sprite.color = (255, 255, 0)
         self.speed = 10
-        self.trail_length = 20
+        self.trail_length = 10
+        self.mouse_mode = False
 
         self.character_sprite.x = self.width // 2
         self.character_sprite.y = self.height // 2
@@ -45,6 +46,7 @@ class Win(Window):
     def on_key_press(self, symbol, modifiers):
         if symbol == key.ESCAPE:
             self.close()
+
 
     def draw_trails(self):
         for trail in self.trails:
@@ -80,6 +82,8 @@ class Win(Window):
             self.character_movement["down"] = False
         elif symbol == key.D:
             self.character_movement["right"] = False
+        elif symbol == key.M:
+            self.mouse_mode = not self.mouse_mode
 
     def reduce_trails(self):
         self.trails.append((self.character_sprite.x, self.character_sprite.y))
@@ -87,11 +91,18 @@ class Win(Window):
 
 
     def update(self, dt):
-        self.character_sprite.x += self.speed if self.character_movement["right"] else 0
-        self.character_sprite.x -= self.speed if self.character_movement["left"] else 0
-        self.character_sprite.y += self.speed if self.character_movement["up"] else 0
-        self.character_sprite.y -= self.speed if self.character_movement["down"] else 0
+        if not self.mouse_mode:
+            self.character_sprite.x += self.speed if self.character_movement["right"] else 0
+            self.character_sprite.x -= self.speed if self.character_movement["left"] else 0
+            self.character_sprite.y += self.speed if self.character_movement["up"] else 0
+            self.character_sprite.y -= self.speed if self.character_movement["down"] else 0
         self.reduce_trails()
+
+    def on_mouse_motion(self, x, y, dx, dy):
+        if self.mouse_mode:
+            self.character_sprite.x = x
+            self.character_sprite.y = y
+
 
 
 
