@@ -1,14 +1,8 @@
-import contextlib
-
 from pyglet.window import Window
 from pyglet import app
 
 from pyglet.window import key
-from pyglet.text import Label
-from pyglet.shapes import Circle, Line, Rectangle
-from threading import Thread
-from time import sleep
-
+from pyglet.shapes import Circle, Line
 
 
 
