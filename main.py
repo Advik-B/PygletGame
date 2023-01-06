@@ -1,11 +1,13 @@
 import contextlib
+from abc import ABC
+
 from pyglet.window import Window
 from pyglet import app
 
 import pyglet
 
 
-class GameWindow(Window):
+class GameWindow(Window, ABC):
     def __init__(self, *args, **kwargs):
         super(GameWindow, self).__init__(*args, **kwargs)
         self.message: pyglet.text.Label = None
