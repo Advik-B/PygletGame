@@ -33,6 +33,7 @@ class Win(Window):
 
         self.notis = None
         self.grid_mode = False
+        self.trails_enabled = True
         self.setup_grid()
 
     def setup_grid(self):
@@ -57,7 +58,8 @@ class Win(Window):
         self.update()
         self.clear()
         self.character_sprite.draw()
-        self.draw_trails()
+        if self.trails_enabled:
+            self.draw_trails()
         if self.grid_mode:
             self.draw_grid()
         # self.draw_grid()
@@ -106,6 +108,10 @@ class Win(Window):
             self.grid_spacing -= 1
             self.grid_spacing = max(1, self.grid_spacing)
             self.setup_grid()
+
+        elif symbol == key.T:
+            # Disable trails
+            self.trails_enabled = not self.trails_enabled
 
     def reduce_trails(self):
         self.trails.append((self.character_sprite.x, self.character_sprite.y))
