@@ -5,8 +5,6 @@ from pyglet.window import key
 from pyglet.shapes import Circle, Line
 
 
-
-
 class Win(Window):
 
     def __init__(self, *args, **kwargs):
@@ -30,8 +28,14 @@ class Win(Window):
         self.grid_color = (255, 255, 255)
         self.grid_width = 1
         self.grid_height = 1
-        self.grid_spacing = 10
+        self.grid_spacing = 100
 
+
+        self.notis = None
+        self.grid_mode = False
+        self.setup_grid()
+
+    def setup_grid(self):
         self.grid = [
             Line(x, 0, x, self.height, self.grid_width, self.grid_color)
             for x in range(0, self.width, self.grid_spacing)
@@ -40,8 +44,6 @@ class Win(Window):
             Line(0, y, self.width, y, self.grid_width, self.grid_color)
             for y in range(0, self.height, self.grid_spacing)
         )
-        self.notis = None
-
 
     def draw_trails(self):
         for trail in self.trails:
@@ -56,6 +58,8 @@ class Win(Window):
         self.clear()
         self.character_sprite.draw()
         self.draw_trails()
+        if self.grid_mode:
+            self.draw_grid()
         # self.draw_grid()
 
     def on_key_press(self, symbol, modifiers):
@@ -86,11 +90,28 @@ class Win(Window):
             self.set_exclusive_mouse(self.mouse_mode)
             self.set_mouse_visible(not self.mouse_mode)
 
+        elif symbol == key.R:
+            self.setup()
+
+        elif symbol == key.G:
+            self.grid_mode = not self.grid_mode
+
+        elif symbol == key.EQUAL:
+            print("Increasing grid spacing")
+            self.grid_spacing += 1
+            self.setup_grid()
+
+        elif symbol == key.MINUS:
+            print("Decreasing grid spacing")
+            self.grid_spacing -= 1
+            self.grid_spacing = max(1, self.grid_spacing)
+            self.setup_grid()
+
     def reduce_trails(self):
         self.trails.append((self.character_sprite.x, self.character_sprite.y))
         self.trails = self.trails[-self.trail_length:]  # keep only the last 100 points
 
-    def update(self, dt: float=1/60):
+    def update(self, dt: float = 1 / 60):
         if not self.mouse_mode:
             self.character_sprite.x += self.speed if self.character_movement["right"] else 0
             self.character_sprite.x -= self.speed if self.character_movement["left"] else 0
@@ -102,6 +123,10 @@ class Win(Window):
         if self.mouse_mode:
             self.character_sprite.x = dx + self.character_sprite.x
             self.character_sprite.y = dy + self.character_sprite.y
+
+    def on_resize(self, width, height):
+        super(Win, self).on_resize(width, height)
+        self.setup_grid()
 
 
 if __name__ == '__main__':
