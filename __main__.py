@@ -62,7 +62,6 @@ class Win(Window):
             self.draw_trails()
         if self.grid_mode:
             self.draw_grid()
-        # self.draw_grid()
 
     def on_key_press(self, symbol, modifiers):
         if symbol == key.W:
@@ -112,6 +111,15 @@ class Win(Window):
         elif symbol == key.T:
             # Disable trails
             self.trails_enabled = not self.trails_enabled
+
+        elif symbol == key.SPACE:
+            # Increase trail length
+            self.trail_length += 1
+
+        elif symbol == key.BACKSPACE:
+            # Decrease trail length
+            self.trail_length -= 1
+            self.trail_length = max(1, self.trail_length)
 
     def reduce_trails(self):
         self.trails.append((self.character_sprite.x, self.character_sprite.y))
